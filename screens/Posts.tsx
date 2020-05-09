@@ -18,21 +18,29 @@ const Posts = (props: Props) => {
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    loadDetails()
-  }, []);
+  useEffect(()=>{
+    if(page==0){
+      props.getPosts(page);
+      setPage((page)=> page+1);  
+    }
+    const timer = setTimeout(()=>{
+        props.getPosts(page);
+        setPage((page)=> page+1);
+    },10000);
 
-  // setTimeout(function () {
-  //   props.getPosts(page)
-  // }, 10000);
+    return ()=> {
+      clearTimeout(timer);
+    }
+  },[page,setPage]);
 
-  const loadDetails = () => {
-    setPage(page+1)
-    props.getPosts(page)
-    setTimeout(loadDetails, 10000);
+
+  const onEndReached = () => {
+    if(page != 0){
+      setLoading(true)
+      props.getPosts(page)
+      setPage(page => page+1)
+    }
   }
-
-  console.log(props.posts, "getPosts");
 
   return (
     <View style={styles.layout}>
@@ -47,14 +55,12 @@ const Posts = (props: Props) => {
               item={item}
             />
           )}
-          // keyExtractor={(item) => item.objectID}
+          keyExtractor={(item) => item.objectID}
           ListEmptyComponent={<Text>No Posts Found</Text>}
-          // onEndReached={() => {
-          //   setLoading(true);
-          //   setPage(page + 1);
-          // }}
+          onEndReached={onEndReached}
           refreshing={loading}
           onRefresh={() => setPage(1)}
+          onEndReachedThreshold={0.9}
         />
         {loading && <ActivityIndicator size="large" />}
       </View>
