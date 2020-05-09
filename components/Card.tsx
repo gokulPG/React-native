@@ -1,13 +1,14 @@
 import React from "react";
 import { View, Text } from "react-native";
 import styles from "../styles/style";
+import {Post} from "../types/Types"
 
 type Props = {
   navigation: {
     navigate: Function;
   };
   getSinglePost: Function;
-  item: any;
+  item: Post;
 };
 
 const Card = (props: Props) => {

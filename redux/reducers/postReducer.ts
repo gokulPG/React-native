@@ -1,11 +1,18 @@
 import * as types from '../actions/constants'
+import {State, PostListAction} from "../../types/Types"
 
-const initialState = {
+const initialState : State = {
   posts: [],
-  singlePost: {}
+  singlePost: {
+    title: "",
+    url: "",
+    author: "",
+    created_at: "",
+    objectID: ""
+  }
 }
 
-export default (state = initialState, action : any ) => {
+export default (state = initialState, action :  PostListAction) => {
     switch(action.type){
       case types.SET_POSTS:
         return {

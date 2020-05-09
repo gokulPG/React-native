@@ -3,6 +3,7 @@ import Card from "../components/Card";
 import { getPosts, getSinglePost } from "../redux/actions/postAction";
 import { connect } from "react-redux";
 import styles from "../styles/style";
+import {Post, PostStore} from "../types/Types"
 import { View, Text, FlatList, ActivityIndicator } from "react-native";
 
 type Props = {
@@ -11,7 +12,7 @@ type Props = {
   };
   getPosts: Function;
   getSinglePost: Function;
-  posts: any;
+  posts: Post[];
 };
 
 const Posts = (props: Props) => {
@@ -68,9 +69,9 @@ const Posts = (props: Props) => {
   );
 };
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state: PostStore) {
   return {
-    posts: state.postStore.posts,
+    posts: state.postStore.posts
   };
 }
 
